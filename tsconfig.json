@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    // --- Type Checking (strictness) ---
+    "strict": true, // enables all strict checks below implicitly; explicit ones are for clarity
+    "noUncheckedIndexedAccess": true, // arr[i] is T | undefined, not T — catches real bugs
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    // --- Modules ---
+    "module": "NodeNext", // matches "type": "module" in package.json
+    "moduleResolution": "NodeNext",
+    "target": "ES2022", // matches Node 20's supported JS feature set
+    "lib": [
+      "ES2022"
+    ],
+    "types": [
+      "node"
+    ],
+    // --- Emit ---
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true, // needed for debugging & stack traces in prod logs
+    "declaration": false, // we're not publishing a library, so no .d.ts needed
+    // --- Interop ---
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true, // don't type-check node_modules' .d.ts files (speed)
+    // --- Project structure ---
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
