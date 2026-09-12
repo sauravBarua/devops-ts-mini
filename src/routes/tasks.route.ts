@@ -12,11 +12,13 @@ tasksRouter.post("/tasks", (req, res) => {
   const { title } = req.body as { title?: unknown };
 
   if (typeof title !== "string" || title.trim().length === 0) {
+    req.log.warn({ body: req.body }, "rejected task creation: invalid title");
     res.status(400).json({ error: "title must be a non-empty string" });
     return;
   }
 
   const task = createTask({ title });
+  req.log.info({ taskId: task.id }, "task created");
   res.status(201).json(task);
 });
 
