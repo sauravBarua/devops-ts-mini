@@ -7,20 +7,20 @@ import type { Task, CreateTaskInput } from "../types/task.js";
 const tasks: Task[] = [];
 
 export function listTasks(): Task[] {
-    return tasks;
+  return tasks;
 }
 
 export function createTask(input: CreateTaskInput): Task {
-    const task: Task = {
-        id: randomUUID(),
-        title: input.title,
-        completed: false,
-        createdAt: new Date().toISOString(),
-    };
-    tasks.push(task);
-    return task;
+  const task: Task = {
+    id: randomUUID(),
+    title: input.title,
+    completed: false,
+    createdAt: new Date().toISOString(),
+  };
+  tasks.push(task);
+  return task;
 }
 
 export function getTaskById(id: string): Task | undefined {
-    return tasks.find((t) => t.id === id);
+  return tasks.find((t) => t.id === id);
 }

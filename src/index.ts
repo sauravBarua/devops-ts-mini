@@ -5,7 +5,7 @@ import { config } from "./config.js";
 const app = buildApp();
 
 const server = app.listen(config.port, () => {
-    console.log(`[boot] listening on port ${config.port} (env: ${config.nodeEnv})`);
+  console.log(`[boot] listening on port ${config.port} (env: ${config.nodeEnv})`);
 });
 
 // Graceful shutdown: important for containers. When Docker/Kubernetes
@@ -13,9 +13,9 @@ const server = app.listen(config.port, () => {
 // SIGKILL. If we don't handle SIGTERM, in-flight requests get dropped
 // mid-response instead of finishing cleanly.
 process.on("SIGTERM", () => {
-    console.log("[shutdown] SIGTERM received, closing server");
-    server.close(() => {
-        console.log("[shutdown] server closed");
-        process.exit(0);
-    });
+  console.log("[shutdown] SIGTERM received, closing server");
+  server.close(() => {
+    console.log("[shutdown] server closed");
+    process.exit(0);
+  });
 });
