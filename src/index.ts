@@ -1,16 +1,21 @@
-// Note the ".js" extension on a relative import to a ".ts" file.
-// This looks wrong but is required under NodeNext module resolution:
-// TypeScript checks the .ts file but emits an import path that must
-// resolve correctly at runtime, where only the compiled .js exists.
-// We don't have other local modules yet, so this is just documented
-// here for when Phase 1 adds them.
+// src/index.ts
+import { buildApp } from "./app.js";
+import { config } from "./config.js";
 
-function main(): void {
-    const port = process.env.PORT ?? "3000";
-    console.log(`[boot] devops-ts-mini starting up`);
-    console.log(`[boot] configured port: ${port}`);
-    console.log(`[boot] node env: ${process.env.NODE_ENV ?? "development"}`);
-}
+const app = buildApp();
 
-main();
+const server = app.listen(config.port, () => {
+    console.log(`[boot] listening on port ${config.port} (env: ${config.nodeEnv})`);
+});
 
+// Graceful shutdown: important for containers. When Docker/Kubernetes
+// stops a container, it sends SIGTERM and waits a grace period before
+// SIGKILL. If we don't handle SIGTERM, in-flight requests get dropped
+// mid-response instead of finishing cleanly.
+process.on("SIGTERM", () => {
+    console.log("[shutdown] SIGTERM received, closing server");
+    server.close(() => {
+        console.log("[shutdown] server closed");
+        process.exit(0);
+    });
+});
